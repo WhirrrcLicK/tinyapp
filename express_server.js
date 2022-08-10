@@ -1,10 +1,12 @@
 const morgan = require('Morgan')
 const express = require("express");
+const cookieParser = require("cookie-parser")
 const app = express();
 const PORT = 8080; // default port 8080
 
 //MIDDLEWARE
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 app.use(morgan('dev'))
 app.set("view engine", "ejs")
 
@@ -26,14 +28,19 @@ function generateRandomString() {
 
 //ROUTES
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase };
+  const templateVars = {
+    urls: urlDatabase,
+    username: req.cookies["username"]
+  }
   res.render("urls_index", templateVars)
 });
 
 app.get("/urls/new", (req, res) => {
-  // console.log("urls_new");
-  //request: asking for form response: getting it back
-  res.render("urls_new");
+  const templateVars = {
+    urls: urlDatabase,
+    username: req.cookies["username"]
+  }
+  res.render("urls_new", templateVars);
 });
 
 app.get("/urls/:id", (req, res) => {
@@ -45,6 +52,12 @@ app.get("/urls/:id", (req, res) => {
   console.log(templateVars)
   res.render("urls_show", templateVars)
 });
+
+app.post("/login", (req,res) => {
+  console.log(req.params.username)
+  res.cookie('username', req.body.username)
+  res.redirect("/urls")
+})
 
 app.post("/urls", (req, res) => {
   let longURL = req.body.longURL
@@ -71,8 +84,9 @@ app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 
-
-
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+
+
