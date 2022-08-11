@@ -15,6 +15,10 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+const userDatabase = {
+
+}
+
 function generateRandomString() {
   let randomString = '';
   let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -53,6 +57,19 @@ app.get("/urls/:id", (req, res) => {
   res.render("urls_show", templateVars)
 });
 
+app.get("/register", (req, res) => {
+  const templateVars = {
+    users: userDatabase,
+    username: req.cookies["username"]
+  }
+  console.log(templateVars)
+res.render("urls_register", templateVars)
+})
+app.post("/urls/register", (req, res) => {
+  console.log(email)
+  res.redirect("/urls")
+});
+
 app.post("/login", (req,res) => {
   console.log(req.params.username)
   res.cookie('username', req.body.username)
@@ -84,6 +101,7 @@ app.post('/urls/:id', (req, res) => {
   urlDatabase[shortURL] = longURL
   res.redirect("/urls")
 })
+
 
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
