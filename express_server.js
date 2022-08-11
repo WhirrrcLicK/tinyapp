@@ -16,7 +16,7 @@ const urlDatabase = {
 };
 
 const users = {
-  userRandomID: {
+  userID: {
     id: "userID",
     email: "user@example.com",
     password: "iburntthebrownies",
@@ -103,7 +103,14 @@ app.post("/register", (req, res) => {
   let email = req.body.email
   let password = req.body.password
   const user = {id: id, email: email, password: password}
+  for (let key in users) {
+    console.log(users[key].email)
+    if (req.body.email === users[key].email) {
+      res.status(400).send('Email already exists.')
+    }
+  }
   users[id] = user
+
   res.cookie('user_id', id)
   res.redirect("/urls")
 });
