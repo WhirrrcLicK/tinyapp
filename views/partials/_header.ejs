@@ -19,7 +19,7 @@
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
         <a class="nav-item nav-link" href="/register">Register</a>
       </div>
-      <% if (!username) {%>
+      <% if (!user) {%>
         <form method="POST" style="margin-left: auto; margin-top: 10px" action="/login">
           <input type="text" placeholder="Enter Username" name="username" required>
           <!-- <label for="password">Password: </label>
@@ -27,7 +27,7 @@
             <button type="submit" class="btn btn-outline-dark">Login</button>
           </form>
             <% } else { %>
-              <p style="margin-left: 325px; margin-top: 15px">Welcome: <%=username%> </p>
+              <p style="margin-left: 325px; margin-top: 15px">Welcome: <%=user['email']%> </p>
           <form method="POST" style ="margin-left: auto" action="/logout">
             <button type="submit" class="btn btn-outline-dark">Logout</button>
           </form>
