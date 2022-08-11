@@ -19,7 +19,8 @@
         <h5 class="card-title">TinyURL for: <%= longURL %>
         </h5>
         <p class="card-text">
-          Short URL ID: <a href="<%=longURL%>" ><%= id %>
+          Short URL ID: <a href="/u/<%= id %>">
+            <%= id %>
           </a>
           <form class="form-inline" action="/urls/<%= id %>" method="POST">
             <div class="form-group mb-2">
