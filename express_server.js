@@ -45,9 +45,22 @@ function generateRandomString() {
     delete urlDatabase[req.params.id];
     res.redirect('/urls');
   });
+  
+  app.get('/login', (req, res) => {
+    
+  })
+  
+  app.post("/login", (req,res) => {
+    res.cookie('username', req.body.username)
+    res.redirect("/urls")
+  })
+  
+  app.post("/logout", (req,res) => {
+    res.clearCookie('user_id')
+    res.redirect('/urls')
+  })
 
   app.get("/urls", (req, res) => {
-  const id = req.cookies['user_id']
   const templateVars = {
     urls: urlDatabase,
     user: users[req.cookies["user_id"]],
@@ -88,15 +101,7 @@ app.get("/urls/:id", (req, res) => {
   res.render("urls_show", templateVars)
 });
 
-app.post("/login", (req,res) => {
-  res.cookie('username', req.body.username)
-  res.redirect("/urls")
-})
 
-app.post("/logout", (req,res) => {
-  res.clearCookie('user_id')
-  res.redirect('/urls')
-})
 
 app.post("/register", (req, res) => {
   const id = generateRandomString()
